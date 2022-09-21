@@ -1,0 +1,22 @@
+from flask import Flask,request,jsonify,json
+from flask_mysqldb import MySQL
+app=Flask(__name__)
+
+app.config['MYSQL_HOST']='localhost'
+app.config['MYSQL_USER']='root'
+app.config['MYSQL_PASSWORD']='root'
+app.config['MYSQL_DB']='saravanan'
+
+mysql=MySQL(app)
+
+@app.route('/Index',methods=['GET','POST'])
+def cutomers_Details():
+    if request.method == "GET":
+        cursor=mysql.connection.cursor()
+        cursor.execute("SELECT * FROM customers ")
+        cust_data=cursor.fetchall()
+        print(json.dumps(cust_data))
+        return json.dumps(cust_data)
+
+if __name__=='__main__':
+    app.run(debug="True")

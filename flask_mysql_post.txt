@@ -1,0 +1,27 @@
+from flask import Flask,request,jsonify,json
+from flask_mysqldb import MySQL
+app=Flask(__name__)
+
+app.config['MYSQL_HOST']='localhost'
+app.config['MYSQL_USER']='root'
+app.config['MYSQL_PASSWORD']='root'
+app.config['MYSQL_DB']='saravanan'
+
+mysql=MySQL(app)
+
+
+
+    elif request.method == "POST":
+
+        req_Json=request.json
+        cus_name=req_Json['cus_name']
+        cus_city=req_Json['cus_city']
+        cus_contact=req_Json['cus_contact']
+        cus_address=req_Json['cus_address']
+        cus_pincode=req_Json['cus_pincode']
+        cur=mysql.connection.cursor()
+        cur.execute("INSERT INTO customers(cus_name, cus_city, cus_contact, cus_address, cust_pincode) values(%s,%s,%s,%s,%s)",
+                    (cus_name,cus_city,cus_contact,cus_address,cus_pincode))
+        mysql.connection.commit()
+        cur.close()
+        return jsonify("Successfully INSERTED DATE,",cus_name,cus_city,cus_contact,cus_address,cus_pincode)
